@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-int add(String imput)
+int Add(String imput)
 {
   return 0;
 }
