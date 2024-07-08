@@ -1,15 +1,13 @@
 using System;
-using System.Collections.Generic;
 
 public class StringCalculator
 {
- public int Add (string input)
-  {
-     if(string.IsNullOrEmpty(input)
+    public int Add(string input)
+    {
+        if (string.IsNullOrEmpty(input))
         {
-         return 0;
+            return 0;
         }
-    return -1;
-  }
+        return -1; // Placeholder for future logic
+    }
 }
-
