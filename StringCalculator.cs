@@ -5,7 +5,7 @@ public class StringCalculator
 {
  public int Add (String input)
   {
-    return 0;
+    return -1;
   }
 }
 
