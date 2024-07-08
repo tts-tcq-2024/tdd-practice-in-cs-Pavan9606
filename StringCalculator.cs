@@ -43,7 +43,10 @@ public class StringCalculator
 
     private List<int> ParseNumbers(string numbers, string[] delimiters)
     {
-        return numbers.Split(delimiters, StringSplitOptions.None).Select(int.Parse).ToList();
+        return numbers
+            .Split(delimiters, StringSplitOptions.None)
+            .Select(number => int.TryParse(number, out int n) ? n : 0)
+            .ToList();
     }
 
     private void ValidateNegativeNumbers(List<int> numbers)
