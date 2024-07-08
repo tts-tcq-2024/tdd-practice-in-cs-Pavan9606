@@ -8,6 +8,6 @@ public class StringCalculator
         {
             return 0;
         }
-        return -1; // Placeholder for future logic
+        return -1; 
     }
 }
