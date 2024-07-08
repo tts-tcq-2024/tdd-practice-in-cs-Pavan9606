@@ -45,7 +45,8 @@ public class StringCalculator
     {
         return numbers
             .Split(delimiters, StringSplitOptions.None)
-            .Select(number => int.TryParse(number, out int n) ? n : 0)
+            .Where(number => !string.IsNullOrWhiteSpace(number))  // Filter out empty strings
+            .Select(number => int.Parse(number))  // Parse numbers and let exceptions propagate for invalid numbers
             .ToList();
     }
 
@@ -63,3 +64,4 @@ public class StringCalculator
         return numbers.Where(n => n <= 1000).Sum();
     }
 }
+
