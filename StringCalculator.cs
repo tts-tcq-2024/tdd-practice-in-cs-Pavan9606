@@ -1,65 +1,56 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
 public class StringCalculator
 {
-    public int Add(string input)
+    public int Add(string numbers)
     {
-        if (string.IsNullOrEmpty(input))
+        if (IsNullOrEmpty(numbers))
         {
             return 0;
         }
-
-        char[] delimiters = GetDelimiters(input);
-
-        var numbers = ParseNumbers(input, delimiters);
-
-        CheckForNegativeNumbers(numbers);
-
-        numbers = FilterNumbers(numbers);
-
-        return SumNumbers(numbers);
+        string[] delimiters = GetDelimiters(numbers, out string numbersWithoutDelimiters);
+        List<int> numberList = ParseNumbers(numbersWithoutDelimiters, delimiters);
+        ValidateNegativeNumbers(numberList);
+        return CalculateSum(numberList);
     }
-
-    private char[] GetDelimiters(string input)
+    private bool IsNullOrEmpty(string input)
     {
-        char[] defaultDelimiters = { ',', '\n' };
-
-        if (input.StartsWith("//"))
+        return string.IsNullOrWhiteSpace(input);
+    }
+    private string[] GetDelimiters(string numbers, out string numbersWithoutDelimiters)
+    {
+        string[] delimiters = new string[] { ",", "\n" };
+        numbersWithoutDelimiters = numbers;
+        if (numbers.StartsWith("//"))
         {
-            int delimiterIndex = input.IndexOf('\n');
-            string delimiterLine = input.Substring(2, delimiterIndex - 2);
-            return new[] { delimiterLine[0] };
+            int delimiterEndIndex = numbers.IndexOf('\n');
+            string customDelimiter = numbers.Substring(2, delimiterEndIndex - 2);
+            delimiters = new string[] { customDelimiter };
+            numbersWithoutDelimiters = numbers.Substring(delimiterEndIndex + 1);
         }
-
-        return defaultDelimiters;
+        return delimiters;
+    }
+    private List<int> ParseNumbers(string numbers, string[] delimiters)
+    {
+        return numbers
+            .Split(delimiters, StringSplitOptions.None)
+            .Select(number => int.TryParse(number, out int n) ? n : 0)
+            .Where(number => !string.IsNullOrWhiteSpace(number))  
+            .Select(number => int.Parse(number))  
+            .ToList();
     }
 
-    private List<int> ParseNumbers(string input, char[] delimiters)
+    private void ValidateNegativeNumbers(List<int> numbers)
     {
-        return input.Split(delimiters, StringSplitOptions.RemoveEmptyEntries)
-                    .Select(int.Parse)
-                    .ToList();
-    }
-
-    private void CheckForNegativeNumbers(List<int> numbers)
-    {
-        var negativeNumbers = numbers.Where(n => n < 0);
+        List<int> negativeNumbers = numbers.Where(n => n < 0).ToList();
         if (negativeNumbers.Any())
         {
-            throw new Exception($"Negatives not allowed: {string.Join(",", negativeNumbers)}");
+            throw new Exception("Negative numbers not allowed: " + string.Join(",", negativeNumbers));
         }
     }
-
-    private List<int> FilterNumbers(List<int> numbers)
+    private int CalculateSum(List<int> numbers)
     {
-        return numbers.Where(n => n <= 1000).ToList();
+        return numbers.Where(n => n <= 1000).Sum();
     }
-
-    private int SumNumbers(List<int> numbers)
-    {
-        return numbers.Sum();
-    }
-
 }
