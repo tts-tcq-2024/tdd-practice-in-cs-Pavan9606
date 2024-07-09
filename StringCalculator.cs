@@ -6,12 +6,12 @@ public class StringCalculator
 {
     public int Add(string numbers)
     {
-        if (string.IsNullOrEmpty(input))
-        if (IsNullOrEmpty(numbers))
-        {
-            return 0;
-        }
-        return -1; 
+        if (string.IsNullOrEmpty(numbers))
+            if (IsNullOrEmpty(numbers))
+            {
+                return 0;
+            }
+       // return -1;
 
         string[] delimiters = GetDelimiters(numbers, out string numbersWithoutDelimiters);
 
