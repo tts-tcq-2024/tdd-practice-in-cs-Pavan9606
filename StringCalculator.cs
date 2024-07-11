@@ -7,11 +7,10 @@ public class StringCalculator
     public int Add(string numbers)
     {
         if (string.IsNullOrEmpty(numbers))
-            if (IsNullOrEmpty(numbers))
+            if (validatestringvalue(numbers))
             {
                 return 0;
             }
-       // return -1;
 
         string[] delimiters = GetDelimiters(numbers, out string numbersWithoutDelimiters);
 
@@ -22,7 +21,7 @@ public class StringCalculator
         return CalculateSum(numberList);
     }
 
-    private bool IsNullOrEmpty(string input)
+    private bool validatestringvalue(string input)
     {
         return string.IsNullOrWhiteSpace(input);
     }
